@@ -3,7 +3,6 @@
  */
 var DBHelper = exports;
 var mongoose = require('mongoose'),
-    assert = require('assert'),
     Schema = mongoose.Schema,
     User = require('./schemas/user'),
     Address = require('./schemas/address'),

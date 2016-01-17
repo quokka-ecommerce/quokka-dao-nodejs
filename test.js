@@ -59,3 +59,5 @@ function deleteDoc(){
         }
     });
 }
+
+deleteDoc();
