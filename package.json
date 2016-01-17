@@ -1,0 +1,27 @@
+{
+  "name": "quokka-dao-nodejs",
+  "version": "0.0.1",
+  "description": "a mongodb dao for nodejs",
+  "main": "test.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quokka-ecommerce/quokka-dao-nodejs.git"
+  },
+  "keywords": [
+    "dao",
+    "nodejs",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/quokka-ecommerce/quokka-dao-nodejs/issues"
+  },
+  "homepage": "https://github.com/quokka-ecommerce/quokka-dao-nodejs#readme",
+  "dependencies": {
+    "mongoose": "^4.3.6"
+  }
+}
