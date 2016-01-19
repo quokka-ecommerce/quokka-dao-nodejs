@@ -152,3 +152,21 @@ DBHelper.queryAllByCollectionName = function(name, callback){
         console.log(TAG, "collection: " + name + " not exist.");
     }
 };
+
+DBHelper.queryOneByClauseInCollection = function(name, clause, callback){
+    var ModelOfName = getModelByCollection(name);
+    if(typeof ModelOfName !== "undefined"){
+        connect(function(){
+            ModelOfName.findOne(clause, function(err, doc){
+                close();
+                if(err){
+                    console.log(TAG, name + " query all failed.");
+                    console.log(TAG, "error: " + err);
+                }
+                callback(err, doc);
+            });
+        });
+    }else{
+        console.log(TAG, "collection: " + name + " not exist.");
+    }
+};

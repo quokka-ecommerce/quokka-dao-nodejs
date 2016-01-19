@@ -60,4 +60,21 @@ function deleteDoc(){
     });
 }
 
-deleteDoc();
+/* validate user password. */
+function validatePassword(){
+    console.log("################################## validate user password ##################################");
+    DBHelper.queryOneByClauseInCollection(name, {email: 'test@quokka.com'}, function(err, user){
+        user.comparePassword('123456', function(err, isMatch) {
+            if (err) throw err;
+            console.log('123456:', isMatch);
+        });
+
+        user.comparePassword('7654321', function(err, isMatch) {
+            if (err) throw err;
+            console.log('7654321:', isMatch);
+        });
+    });
+}
+
+validatePassword();
+
