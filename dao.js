@@ -1,7 +1,7 @@
 /**
  * Created by longNightKing on 12/9/15.
  */
-var DBHelper = exports;
+var DAO = exports;
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     User = require('./schemas/user'),
@@ -14,23 +14,25 @@ var mongoose = require('mongoose'),
     Promotion = require('./schemas/promotion'),
     Sale = require('./schemas/sale'),
     Vendor = require('./schemas/vendor'),
-    TAG = 'DBHelper:';
+    ShoppingCart = require('./schemas/shopping-cart')
+    TAG = 'DAO:';
 
 var collectionList = [User, Address, CreditCard,
     Conversation, Employee, Order, Product,
-    Promotion, Sale, Vendor];
+    Promotion, Sale, Vendor, ShoppingCart];
 
-function connect(successCallBack){
-    mongoose.connect(DBHelper.dbUrl);
+function connect(dbURL, callback){
     var db = mongoose.connection;
-    db.on('error', function(){
-        console.error.bind(console, TAG, 'connection error.');
-        db.close();
+    db.on('error', function(err){
+        console.error.bind(console, TAG, err);
     });
     db.once('open', function() {
         console.log(TAG, 'db connected.');
-        successCallBack();
+        if(callback){
+            callback();
+        }
     });
+    mongoose.connect(dbURL);
 }
 
 function close(){
@@ -39,7 +41,7 @@ function close(){
 }
 
 function getSchemaInstanceByName(name){
-    console.log(TAG, "client wants " + name);
+    console.log(TAG, 'get schema of ' + name);
     for(var i = 0; i < collectionList.length; i++){
         if(name.localeCompare(collectionList[i].collection) == 0){
             return collectionList[i];
@@ -56,15 +58,15 @@ function getModelByCollection(name){
     return mongoose.model(name, schema);
 }
 
-DBHelper.dbUrl = 'mongodb://localhost:27017/test';
-
-DBHelper.config = function(url){
-    if(dbUrl){
-        DBHelper.dbUrl = url;
-    }
+DAO.connectDB = function(dbURL, callback){
+    connect(dbURL, callback);
 }
 
-DBHelper.getCollectionNameList = function(){
+DAO.closeDB = function(){
+    close();
+}
+
+DAO.getCollectionNameList = function(){
     var list = [];
     for(var i = 0; i < collectionList.length; i++){
         list[list.length] = collectionList[i].collection;
@@ -72,7 +74,7 @@ DBHelper.getCollectionNameList = function(){
     return list;
 }
 
-DBHelper.getSchemaByName = function(name){
+DAO.getSchemaByName = function(name){
     var schemaInstance = getSchemaInstanceByName(name);
     if(typeof schemaInstance !== "undefined"){
         return schemaInstance.attribute;
@@ -80,91 +82,76 @@ DBHelper.getSchemaByName = function(name){
     return undefined;
 }
 
-DBHelper.addOneDocToCollection = function(name, data, callback){
+DAO.addOneDocToCollection = function(name, data, callback){
     var ModelOfName = getModelByCollection(name);
     if(typeof ModelOfName !== "undefined"){
         var modelInstance = new ModelOfName(data);
-        connect(function() {
-            modelInstance.save(function (err) {
-                close();
-                if (err) {
-                    console.log(TAG, "doc of " + name + " add failed.");
-                    console.log(TAG, "error: " + err);
-                }
-                callback(err);
-            });
+        modelInstance.save(function (err) {
+            if (err) {
+                console.log(TAG, "doc of " + name + " add failed.");
+                console.log(TAG, "error: " + err);
+            }
+            callback(err);
         });
     }else{
         console.log(TAG, "collection: " + name + " not exist.");
     }
 }
 
-DBHelper.removeOneDocFromCollection = function(name, query, callback){
+DAO.removeOneDocFromCollection = function(name, query, callback){
     var ModelOfName = getModelByCollection(name);
     if(typeof ModelOfName !== "undefined"){
-        connect(function() {
-            ModelOfName.remove(query, function(err){
-                close();
-                if(err){
-                    console.log(TAG, "doc of " + name + " remove failed.");
-                    console.log(TAG, "error: " + err);
-                }
-                callback(err);
-            });
+        ModelOfName.remove(query, function(err){
+            if(err){
+                console.log(TAG, "doc of " + name + " remove failed.");
+                console.log(TAG, "error: " + err);
+            }
+            callback(err);
         });
     }else{
         console.log(TAG, "collection: " + name + " not exist.");
     }
 }
 
-DBHelper.updateOne = function(name, query, doc, options, callback){
+DAO.updateOne = function(name, query, doc, options, callback){
     var ModelOfName = getModelByCollection(name);
     if(typeof ModelOfName !== "undefined"){
-        connect(function() {
-            ModelOfName.update(query, doc, options, function(err, raw){
-                close();
-                if(err){
-                    console.log(TAG, name + " update failed.");
-                    console.log(TAG, "error: " + err);
-                }
-                callback(err, raw);
-            });
+        ModelOfName.update(query, doc, options, function(err, raw){
+            if(err){
+                console.log(TAG, name + " update failed.");
+                console.log(TAG, "error: " + err);
+            }
+            callback(err, raw);
         });
     }else{
         console.log(TAG, "collection: " + name + " not exist.");
     }
 }
 
-DBHelper.queryAllByCollectionName = function(name, callback){
+DAO.queryAllByCollectionName = function(name, callback){
     var ModelOfName = getModelByCollection(name);
     if(typeof ModelOfName !== "undefined"){
-        connect(function(){
-            ModelOfName.find({}, function(err, docs){
-                close();
-                if(err){
-                    console.log(TAG, name + " query all failed.");
-                    console.log(TAG, "error: " + err);
-                }
-                callback(err, docs);
-            });
+        ModelOfName.find({}, function(err, docs){
+            if(err){
+                console.log(TAG, name + " query all failed.");
+                console.log(TAG, "error: " + err);
+            }
+            callback(err, docs);
         });
     }else{
         console.log(TAG, "collection: " + name + " not exist.");
     }
 };
 
-DBHelper.queryOneByClauseInCollection = function(name, clause, callback){
+DAO.queryOneByClauseInCollection = function(name, clause, callback){
     var ModelOfName = getModelByCollection(name);
     if(typeof ModelOfName !== "undefined"){
-        connect(function(){
-            ModelOfName.findOne(clause, function(err, doc){
-                close();
-                if(err){
-                    console.log(TAG, name + " query all failed.");
-                    console.log(TAG, "error: " + err);
-                }
-                callback(err, doc);
-            });
+        ModelOfName.findOne(clause, function(err, doc){
+            if(err){
+                console.log(TAG, name + " query one failed.");
+                console.log(TAG, "error: " + err);
+            }
+            callback(err, doc);
         });
     }else{
         console.log(TAG, "collection: " + name + " not exist.");

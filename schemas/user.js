@@ -15,7 +15,6 @@ User.attribute = {
     password : 'String',
     credits: 'Number',
     profile: 'Object',
-    shopping_cart: 'ObjectArray',
     conversation: 'Array',
     orders: 'Array',
     credit_card_list: 'Array',
@@ -33,10 +32,9 @@ User.schema = new Schema({
         DOB: {type: Date, default: Date.now},
         phone_num: Number
     },
-    shopping_cart: [{}],
     credits: {type: Number, default: 0},
     password : {type: String, required: true },
-    email: {type: String, required: true, index: { unique: true } },
+    email: {type: String, required: true, unique: true},
     user_name: {type: String, default: require('../util/util').randomString(8)}
 }, {
     collection: User.collection

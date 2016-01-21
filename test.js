@@ -2,8 +2,8 @@
  * Created by longNightKing on 1/16/16.
  */
 var DBHelper = require('./dao');
-
 var name  = 'user';
+
 /* GET all collections. */
 function getAllCollection(){
     console.log("################################## GET all collections ##################################");
@@ -29,7 +29,10 @@ function getAllDocByCollection(){
 /* Add a new document by for corresponding collection. */
 function addNew(){
     console.log("################################## Add a new document by for corresponding collection ##################################");
-    DBHelper.addOneDocToCollection(name, {email: 'test@quokka.com', password: '123456'}, function(err, raw){
+    DBHelper.addOneDocToCollection('shopping_cart', {
+        userId: 'test888@quokka.com',
+        isActive: true,
+        items: [{qty: 3, sku: '1aazqsw2sx-M-RED'}, {qty: 1090, sku: '2ljhhjvljhfv-XXL-BLUE'}]}, function(err, raw){
         if(!err){
             console.log("add successfully");
         }else{
@@ -42,7 +45,7 @@ function addNew(){
 /* Update an exist document for corresponding collection. */
 function update(){
     console.log("################################## Update an exist document for corresponding collection ##################################");
-    DBHelper.updateOne(name, {email: 'test@quokka.com'}, {email: 'test@quokka.com', password: '123456777'}, function(err, raw){
+    DBHelper.updateOne(name, {email: 'test@quokka.com'}, {email: 'test@quokka.com', password: '12123453456777'}, function(err, raw){
         if(!err){
             console.log("updated successfully");
         }
@@ -53,7 +56,7 @@ function update(){
 /* Delete an exist document for corresponding collection. */
 function deleteDoc(){
     console.log("################################## Delete an exist document for corresponding collection ##################################");
-    DBHelper.removeOneDocFromCollection(name, {email: 'test@quokka.com'}, function(err){
+    DBHelper.removeOneDocFromCollection(name, {email: 'test456@quokka.com'}, function(err){
         if(!err){
             console.log("Document droped");
         }
@@ -76,5 +79,12 @@ function validatePassword(){
     });
 }
 
-validatePassword();
+DBHelper.connectDB('mongodb://localhost:27017/test', function(){
+    deleteDoc();
+});
+
+setTimeout(function(){
+    DBHelper.closeDB();
+}, 5 * 1000);
+
 
