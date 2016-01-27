@@ -1,6 +1,6 @@
 {
   "name": "quokka-dao-nodejs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a mongodb dao for nodejs",
   "main": "dao.js",
   "scripts": {

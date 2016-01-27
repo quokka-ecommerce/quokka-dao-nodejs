@@ -6,18 +6,23 @@ var Conversation = exports;
 var Schema = require('mongoose').Schema;
 var basic = require('./basic');
 
-Conversation.collection = 'conversation';
+Conversation.collection = 'Conversation';
 Conversation.attribute = {
-    user_id: 'ObjectId',
-    agent_id: 'ObjectId',
-    msg_list: 'Object',
-    basic: 'Object'
+    _id: 'User',
+    MSGs: 'MSG',
+    basic: 'Basic'
 };
 Conversation.schema  = new Schema({
     basic: basic.schema,
-    user_id: Schema.ObjectId,
-    agent_id: Schema.ObjectId,
-    msg_list: [{sender_id: Schema.ObjectId, time_stamp: Date, content: String}]
+
+    _id: {type: String, required: true, unique: true, ref: 'User'},
+
+    MSGs: [{
+        ask_time: {type: Date, default: Date.now},
+        content: String,
+        response_time: {type: Date, default: Date.now},
+        response: String
+    }]
 }, {
     collection: Conversation.collection
 });

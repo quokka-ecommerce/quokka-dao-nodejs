@@ -1,34 +1,38 @@
 /**
- * Created by longNightKing on 1/25/16.
- */
-/**
  * Define shipping schema here
  * Created by longNightKing on 12/10/15.
  */
-var Shipping = exports;
+var Shipment = exports;
 var Schema = require('mongoose').Schema;
 var basic = require('./basic');
 
-Shipping.collection = 'shipping';
-Shipping.attribute = {
-    id: Number,
+Shipment.collection = 'Shipment';
+Shipment.attribute = {
+    _id: Number,
     company: 'String',
-    method: 'String',
+    shippingMethodId: 'String',
     tracking_num: 'String',
     ETA: 'Date',
     status: 'String',
     link: 'String',
     basic: 'Object'
 };
-Shipping.schema  = new Schema({
+Shipment.schema  = new Schema({
     basic: basic.schema,
-    id: Number,
+
+    _id: Number,
+
     company: String,
-    method: String,
+
+    shippingMethodId: {type: String, ref: 'ShippingMethod'},
+
     tracking_num: String,
+
     ETA: Date,
+
     status: String,
+
     link: String
 }, {
-    collection: Shipping.collection
+    collection: Shipment.collection
 });

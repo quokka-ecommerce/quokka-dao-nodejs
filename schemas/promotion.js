@@ -6,7 +6,7 @@ var Promotion = exports;
 var Schema = require('mongoose').Schema;
 var basic = require('./basic');
 
-Promotion.collection = 'promotion';
+Promotion.collection = 'Promotion';
 Promotion.attribute = {
     basic: 'Object'
 };

@@ -5,22 +5,21 @@ var DAO = exports;
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     User = require('./schemas/user'),
-    Address = require('./schemas/address'),
-    CreditCard = require('./schemas/credit-card'),
     Conversation = require('./schemas/conversation'),
     Employee = require('./schemas/employee'),
     Order = require('./schemas/order'),
     Product = require('./schemas/product'),
     Promotion = require('./schemas/promotion'),
+    Query = require('./schemas/query'),
     Sale = require('./schemas/sale'),
     Vendor = require('./schemas/vendor'),
     ShoppingCart = require('./schemas/shopping-cart'),
-    Shipping = require('./schemas/shipping'),
+    Shipment = require('./schemas/shipment'),
+    ShippingMethod = require('./schemas/shipping-method'),
     TAG = 'DAO:';
 
-var collectionList = [User, Address, CreditCard,
-    Conversation, Employee, Order, Product,
-    Promotion, Sale, Vendor, ShoppingCart, Shipping];
+var collectionList = [User, Conversation, Employee, Order, Product,
+    Promotion, Query, Sale, Vendor, ShoppingCart, Shipment, ShippingMethod];
 
 function connect(dbURL, callback){
     var db = mongoose.connection;
@@ -33,7 +32,9 @@ function connect(dbURL, callback){
             callback();
         }
     });
-    mongoose.connect(dbURL);
+    mongoose.connect(dbURL, function(err){
+        if(err) throw err;
+    });
 }
 
 function close(){

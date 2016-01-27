@@ -6,7 +6,7 @@ var Vendor = exports;
 var Schema = require('mongoose').Schema;
 var basic= require('./basic');
 
-Vendor.collection = 'vendor';
+Vendor.collection = 'Vendor';
 Vendor.attribute = {
     basic: 'Object'
 };

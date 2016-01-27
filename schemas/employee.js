@@ -6,17 +6,20 @@ var Employee = exports;
 var Schema = require('mongoose').Schema;
 var basic = require('./basic');
 
-Employee.collection = 'employee';
+Employee.collection = 'Employee';
 Employee.attribute = {
+    _id: 'String',
     name: 'String',
-    user_name: 'String',
     password: 'String',
     basic: 'Object'
 };
 Employee.schema  = new Schema({
     basic: basic.schema,
+
+    _id: {type: String, required: true, unique: true},
+
     name: String,
-    user_name: String,
+
     password: String
 }, {
     collection: Employee.collection

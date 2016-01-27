@@ -6,7 +6,7 @@ var Query = exports;
 var Schema = require('mongoose').Schema;
 var basic = require('./basic');
 
-Query.collection = 'query';
+Query.collection = 'Query';
 Query.attribute = {
     basic: 'Object'
 };

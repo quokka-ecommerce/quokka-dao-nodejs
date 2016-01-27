@@ -2,7 +2,7 @@
  * Created by longNightKing on 1/16/16.
  */
 var DBHelper = require('./dao');
-var name  = 'user';
+var name  = 'User';
 
 /* GET all collections. */
 function getAllCollection(){

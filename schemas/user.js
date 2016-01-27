@@ -8,34 +8,61 @@ var basic = require('./basic');
 var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
 
-User.collection = 'user';
+User.collection = 'User';
 User.attribute = {
     _id: 'String',
     user_name: 'String',
     password : 'String',
     credits: 'Number',
-    profile: 'Object',
-    conversation: 'Array',
-    orders: 'Array',
-    credit_card_list: 'Array',
-    address_list: 'Array',
+    profile: 'Profile',
+    default_card: 'CreditCardId',
+    credit_cards: 'CreditCard',
+    default_shipping_address: 'AddressId',
+    addresses: 'Address',
     basic: 'Object'
 };
 User.schema = new Schema({
     basic: basic.schema,
-    address_list: [Schema.ObjectId],
-    credit_card_list: [Schema.ObjectId],
-    orders: [Schema.ObjectId],
-    conversation: [Schema.ObjectId],
+
+    addresses: [{
+        name: String,
+        first_line: String,
+        second_line: String,
+        city: String,
+        state: String,
+        zip: Number
+    }],
+
+    default_shipping_address: Schema.ObjectId,
+
+    credit_cards: [{
+        name: String,
+        card_num: Number,
+        expiration_date: {type: Date, min: Date.now},
+        billing_address:{
+            first_line: String,
+            second_line: String,
+            city: String,
+            state: String,
+            zip: Number
+        }
+    }],
+
+    default_card: Schema.ObjectId,
+
     profile: {
-        gender: {type: Boolean, default: true},
-        DOB: {type: Date, default: Date.now},
+        gender: Boolean,
+        DOB: Date,
         phone_num: Number
     },
-    credits: {type: Number, default: 0},
+
+    credits: {type: Number, default: 0, min: 0},
+
     password : {type: String, required: true },
+
     _id: {type: String, required: true, unique: true},
-    user_name: {type: String, default: require('../util/util').randomString(8)}
+
+    user_name: String
 }, {
     collection: User.collection
 });
