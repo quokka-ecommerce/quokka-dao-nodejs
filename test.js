@@ -29,10 +29,10 @@ function getAllDocByCollection(){
 /* Add a new document by for corresponding collection. */
 function addNew(){
     console.log("################################## Add a new document by for corresponding collection ##################################");
-    DBHelper.addOneDocToCollection('shopping_cart', {
-        userId: 'test888@quokka.com',
-        isActive: true,
-        items: [{qty: 3, sku: '1aazqsw2sx-M-RED'}, {qty: 1090, sku: '2ljhhjvljhfv-XXL-BLUE'}]}, function(err, raw){
+    DBHelper.addOneDocToCollection(name, {
+        _id: 'cwang77@quokka.com',
+        password: '986320',
+        }, function(err, raw){
         if(!err){
             console.log("add successfully");
         }else{
@@ -80,7 +80,7 @@ function validatePassword(){
 }
 
 DBHelper.connectDB('mongodb://localhost:27017/test', function(){
-    deleteDoc();
+    addNew();
 });
 
 setTimeout(function(){

@@ -14,12 +14,13 @@ var mongoose = require('mongoose'),
     Promotion = require('./schemas/promotion'),
     Sale = require('./schemas/sale'),
     Vendor = require('./schemas/vendor'),
-    ShoppingCart = require('./schemas/shopping-cart')
+    ShoppingCart = require('./schemas/shopping-cart'),
+    Shipping = require('./schemas/shipping'),
     TAG = 'DAO:';
 
 var collectionList = [User, Address, CreditCard,
     Conversation, Employee, Order, Product,
-    Promotion, Sale, Vendor, ShoppingCart];
+    Promotion, Sale, Vendor, ShoppingCart, Shipping];
 
 function connect(dbURL, callback){
     var db = mongoose.connection;

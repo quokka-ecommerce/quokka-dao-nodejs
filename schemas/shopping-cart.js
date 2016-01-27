@@ -7,7 +7,7 @@ var basic = require('./basic');
 
 ShoppingCart.collection = 'shopping_cart';
 ShoppingCart.attribute = {
-    userId: 'String',
+    _id: 'String',
     items: 'Array',
     isActive: 'Boolean',
     basic: 'object'
@@ -19,7 +19,7 @@ ShoppingCart.schema = new Schema({
         sku: String
     }],
     isActive: Boolean,
-    userId: {type: String, unique: true, required: true}
+    _id: {type: String, unique: true, required: true, ref: 'user'}
 }, {
     collection: ShoppingCart.collection
 });

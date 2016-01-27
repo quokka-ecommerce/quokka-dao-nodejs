@@ -8,6 +8,7 @@ var basic = require('./basic');
 
 Address.collection = 'address';
 Address.attribute = {
+    name: 'String',
     first_line: 'String',
     second_line: 'String',
     city: 'String',
@@ -17,6 +18,7 @@ Address.attribute = {
 };
 Address.schema = new Schema({
     basic: basic.schema,
+    name: String,
     first_line: String,
     second_line: String,
     city: String,

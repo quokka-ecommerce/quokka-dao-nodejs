@@ -10,8 +10,8 @@ var SALT_WORK_FACTOR = 10;
 
 User.collection = 'user';
 User.attribute = {
+    _id: 'String',
     user_name: 'String',
-    email: 'String',
     password : 'String',
     credits: 'Number',
     profile: 'Object',
@@ -34,7 +34,7 @@ User.schema = new Schema({
     },
     credits: {type: Number, default: 0},
     password : {type: String, required: true },
-    email: {type: String, required: true, unique: true},
+    _id: {type: String, required: true, unique: true},
     user_name: {type: String, default: require('../util/util').randomString(8)}
 }, {
     collection: User.collection
