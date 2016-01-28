@@ -9,6 +9,7 @@ var basic = require('./basic');
 Product.collection = 'Product';
 Product.attribute = {
     product_name: 'String',
+    sku: 'String',
     upc: 'String',
     category_l1: 'String',
     category_l2: 'String',
@@ -40,6 +41,8 @@ Product.schema = new Schema({
     attributes: {},
 
     product_name: String,
+
+    sku: String,
 
     upc: String,
 
